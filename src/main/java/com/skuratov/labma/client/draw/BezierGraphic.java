@@ -9,6 +9,7 @@ public class BezierGraphic {
 
     /**
      * The method generates a constant for creating points Bezier.
+     *
      * @param i - vertex number
      * @param n - number of vertices
      * @param t - curve position (from 0 to 1)
@@ -19,15 +20,18 @@ public class BezierGraphic {
 
     /**
      * Method for Factorial Calculation.
+     *
      * @return factorial by number
      */
     private static float fact(int number) {
         return (number <= 1) ? 1 : number * fact(number - 1);
     }
 
-    // arr - массив опорных точек. Точка - двухэлементный массив, (x = arr[0], y = arr[1])
-    // step - шаг при расчете кривой (0 < step < 1), по умолчанию 0.01
-    private static ArrayList<Point> getBezierCurve(CurveLine line) {
+    /**
+     * @param line - curved line resulting from reading a file
+     * @return - curved line obtained by the Bezier method
+     */
+    private static CurveLine getBezierCurve(CurveLine line) {
         ArrayList<Point> listCurve = line.getListPoints();
         ArrayList<Point> newListCurve = new ArrayList<>();
         float x = 0, y = 0, b;
@@ -41,18 +45,18 @@ public class BezierGraphic {
             x = 0;
             y = 0;
         }
-        return newListCurve;
+        return new CurveLine(newListCurve);
     }
 
     /**
-     *  Method that generates a list of curved lines based on lines received from the server.
+     * Method that generates a list of curved lines based on lines received from the server.
      * @param listCurves - list of points read from the server
      * @return List formed from Bezier curves
      */
-    public static ArrayList<CurveLine> getBezierCurves(ArrayList<CurveLine> listCurves){
+    public static ArrayList<CurveLine> getBezierCurves(ArrayList<CurveLine> listCurves) {
         ArrayList<CurveLine> listAnswer = new ArrayList<>();
-        for (CurveLine line: listCurves) {
-            listAnswer.add(new CurveLine(getBezierCurve(line)));
+        for (CurveLine line : listCurves) {
+            listAnswer.add(getBezierCurve(line));
         }
         return listAnswer;
     }

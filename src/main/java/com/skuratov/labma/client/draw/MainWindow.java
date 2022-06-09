@@ -2,9 +2,9 @@ package com.skuratov.labma.client.draw;
 
 import com.skuratov.labma.client.draw.model.CurveLine;
 
+import java.util.ArrayList;
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
 
 /**
  * Class for drawing the graphics window.
