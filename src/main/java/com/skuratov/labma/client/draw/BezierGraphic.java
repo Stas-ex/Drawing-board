@@ -6,6 +6,8 @@ import com.skuratov.labma.client.draw.model.Point;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.util.stream.Collectors.*;
+
 public class BezierGraphic {
 
     /**
@@ -15,11 +17,7 @@ public class BezierGraphic {
      * @return List formed from Bezier curves
      */
     public static List<CurveLine> getBezierCurves(List<CurveLine> readCurves) {
-        List<CurveLine> curvesBezier = new ArrayList<>();
-        for (CurveLine line : readCurves) {
-            curvesBezier.add(getBezierCurve(line));
-        }
-        return curvesBezier;
+       return readCurves.stream().map(BezierGraphic::getBezierCurve).collect(toList());
     }
 
     /**
