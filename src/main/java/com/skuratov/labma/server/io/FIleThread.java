@@ -1,11 +1,13 @@
 package com.skuratov.labma.server.io;
 
 import com.skuratov.labma.server.db.StoryLines;
+import org.apache.commons.io.input.ReversedLinesFileReader;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -19,10 +21,16 @@ public class FIleThread extends Thread {
     private final File file;
     private long lastTimeFile;
 
-
+    /**
+     * lastTimeFile - variable to get a permanent file update
+     *
+     * @param fileName - file name to read
+     */
     public FIleThread(String fileName) {
         file = new File(fileName);
-        lastTimeFile = 0;
+        lastTimeFile = file.lastModified();
+        List<String> linesRead = readAllFile();
+        StoryLines.getInstance().updateStory(linesRead);
     }
 
     /**
@@ -30,27 +38,26 @@ public class FIleThread extends Thread {
      */
     @Override
     public synchronized void run() {
-        logger.info("File watching...");
-        if (file.lastModified() > lastTimeFile) {
-            logger.info("file update! time : " + file.lastModified());
-            lastTimeFile = file.lastModified();
-            StoryLines.getInstance().updateStory(this.readFile(file));
+        while (!this.isInterrupted()) {
+            if (file.lastModified() > lastTimeFile) {
+                List<String> readLines = this.readEndLine();
+                if (!readLines.isEmpty()) {
+                    logger.info(String.format("file update! time : %d, lines: %d", file.lastModified(), readLines.size()));
+                    StoryLines.getInstance().updateStory(readLines);
+                }
+                lastTimeFile = file.lastModified();
+            }
         }
     }
 
-    /**
-     * Method for reading file data
-     *
-     * @param file - drawing data file
-     * @return list of lines read
-     */
-    private List<String> readFile(File file) {
+    private List<String> readAllFile() {
+        logger.info("Read all file.");
         List<String> validLines = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             while (reader.ready()) {
                 String line = reader.readLine();
                 if (validateLine(line)) {
-                    validLines.add(line + "\n");
+                    validLines.add(line);
                 }
             }
             return validLines;
@@ -59,19 +66,38 @@ public class FIleThread extends Thread {
         }
     }
 
+    private List<String> readEndLine() {
+        logger.info("Read end file.");
+        List<String> updateLines = new ArrayList<>();
+        List<String> storyLines = StoryLines.getInstance().getLinesRead();
+
+        try (ReversedLinesFileReader reader = new ReversedLinesFileReader(file, StandardCharsets.UTF_8)) {
+            String lastLine  = reader.readLine();
+            while (lastLine != null && !storyLines.contains(lastLine)){
+                if (validateLine(lastLine)) {
+                    updateLines.add(lastLine);
+                }
+                lastLine = reader.readLine();
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return updateLines;
+    }
+
     /**
      * Method for validating string data.
      *
      * @param line - line read from file.
      */
     private boolean validateLine(String line) {
-        String[] splitLine = line.split(";");
         try {
+            String[] splitLine = line.split(";");
             return splitLine.length == 5
                     && Pattern.matches("^([0-9A-Fa-f]{2}[\\\\.:-]){5}([0-9A-Fa-f]{2})$", splitLine[0])
                     && ((splitLine[1].equals("start") || splitLine[1].equals("move")
                     && Double.parseDouble(splitLine[2]) > 0 && Double.parseDouble(splitLine[3]) > 0));
-        } catch (NumberFormatException ex) {
+        } catch (NumberFormatException | NullPointerException ex) {
             return false;
         }
     }
