@@ -53,7 +53,6 @@ public class BezierGraphic {
 
     /**
      * Method for Factorial Calculation.
-     *
      * @return factorial by number
      */
     private static float fact(int number) {

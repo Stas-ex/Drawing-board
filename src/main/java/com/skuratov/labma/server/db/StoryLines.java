@@ -31,10 +31,9 @@ public class StoryLines {
 
     /**
      * Get the complete list of read lines.
-     *
      * @return list String.
      */
-    public List<String> getStory() {
+    public List<String> getLinesRead() {
         return linesRead;
     }
 }

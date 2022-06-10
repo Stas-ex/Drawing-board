@@ -33,7 +33,9 @@ public class ClientThread implements Runnable {
         logger.info("Client open window.");
     }
 
-
+    /**
+     * The main method for interacting with the window and the server
+     */
     @Override
     public void run() {
         //If unable to connect to socket, wait for connection
@@ -56,6 +58,11 @@ public class ClientThread implements Runnable {
 
     }
 
+    /**
+     * Method for reading updated data from the server and redrawing the window
+     * @param in - stream for reading data from the server
+     * @throws IOException if data read error
+     */
     public void repaint(BufferedReader in) throws IOException {
         if (in.ready()) {
             logger.info("Repaint..");

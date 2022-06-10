@@ -20,7 +20,7 @@ public class ClientHandler {
         out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream())));
 
         //display the current version of the lines
-        List<String> linesStory = StoryLines.getInstance().getStory();
+        List<String> linesStory = StoryLines.getInstance().getLinesRead();
         send(linesStory);
     }
 

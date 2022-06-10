@@ -19,7 +19,10 @@ public class FIleThread extends Thread {
     private final File file;
     private long lastTimeFile;
 
-
+    /**
+     * lastTimeFile - variable to get a permanent file update
+     * @param fileName - file name to read
+     */
     public FIleThread(String fileName) {
         file = new File(fileName);
         lastTimeFile = 0;
@@ -40,7 +43,6 @@ public class FIleThread extends Thread {
 
     /**
      * Method for reading file data
-     *
      * @param file - drawing data file
      * @return list of lines read
      */
@@ -61,7 +63,6 @@ public class FIleThread extends Thread {
 
     /**
      * Method for validating string data.
-     *
      * @param line - line read from file.
      */
     private boolean validateLine(String line) {
