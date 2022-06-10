@@ -2,13 +2,13 @@ package com.skuratov.labma.client.draw.model;
 
 import lombok.Data;
 
-import java.util.ArrayList;
+import java.util.List;
 
 @Data
 public class CurveLine {
-    private ArrayList<Point> listPoints;
+    private List<Point> points;
 
-    public CurveLine(ArrayList<Point> listPoints) {
-        this.listPoints = listPoints;
+    public CurveLine(List<Point> listPoints) {
+        this.points = listPoints;
     }
 }

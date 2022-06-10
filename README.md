@@ -63,14 +63,14 @@ Params:
 
 ## Application work
 
-To start the server, run the main method in the [Server.java](src/main/java/com/skuratov/labma/server/Server.java) class. <br>
+To start the server, run the main method in the [ServerApplication.java](src/main/java/com/skuratov/labma/server/ServerApplication.java) class. <br>
 The console will display up-to-date data on reading the file.
 
 ![](src/main/resources/img-ReadMe/ServerWorker.png)
 
 **Client**
 
-To run multiple client threads, you need to run the main method in the [ClientFactory](src/main/java/com/skuratov/labma/client/ClientFactory.java) class. <br>
+To run multiple client threads, you need to run the main method in the [ClientApplication](src/main/java/com/skuratov/labma/client/ClientApplication.java) class. <br>
 After the factory starts, empty client windows are created.
 In case of a successful connection to the server, clients read data from the server in real time and convert it into a graphical form.
 
@@ -80,5 +80,25 @@ When using data in a [file](src/main/resources/drawingCommands.txt), reducing th
 
 ![](src/main/resources/img-ReadMe/ClientTwo.png)
 
-If the client fails to connect to the server, throw a "[ConnectException](https://docs.oracle.com/javase%2F7%2Fdocs%2Fapi%2F%2F/java/net/ConnectException.html)" until the client connects to the server.
+If the client fails to connect to the server, throw a [ConnectException](https://docs.oracle.com/javase%2F7%2Fdocs%2Fapi%2F%2F/java/net/ConnectException.html) until the client connects to the server.
+
 ![](src/main/resources/img-ReadMe/ClientErrConnection.png)
+
+## Setup
+When creating the application, the following technologies were used:
+1. Java 8
+2. maven build tool 3.
+3. Graphical interface - Swing/awt.
+
+When starting the project, you will need to download the libraries using maven. You also need to download jdk 8 version.<br>
+<br>Excellent! Now you can run the project. To do this, run the main method in classes: 
+- [ServerApplication](src/main/java/com/skuratov/labma/server/ServerApplication.java)
+- [ClientApplication](src/main/java/com/skuratov/labma/client/ClientApplication.java)
+
+Method lookup procedure is not needed.
+
+##You can contact me:
+
+<a href ="https://t.me/StaseEx"><img src="https://github.com/Mybono/Mybono/raw/main/assets/telegran%2035%20px.png"/></a>
+
+

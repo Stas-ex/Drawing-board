@@ -8,14 +8,13 @@ import java.util.Map;
  * Class for converting quantitative color values to a Color object.
  */
 public class ColorParser {
-    private static final Map<Integer, Color> colorMap;
+    private static final Map<String, Color> colorMap = new HashMap<>();
 
     static {
-        colorMap = new HashMap<>();
-        colorMap.put(-16777216, Color.black);
+        colorMap.put("-16777216", Color.black);
     }
 
-    public static Color getColorByDigit(int number) {
-        return colorMap.get(number);
+    public static Color getColorByDigit(String numberStr) {
+        return colorMap.get(numberStr);
     }
 }
