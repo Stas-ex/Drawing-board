@@ -2,7 +2,7 @@ package com.skuratov.labma.server.db;
 
 import com.skuratov.labma.server.ServerApplication;
 
-
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -10,7 +10,7 @@ import java.util.List;
  */
 public class StoryLines {
     private static StoryLines story;
-    private List<String> linesRead;
+    private final static List<String> linesRead = new ArrayList<>();
 
     public static StoryLines getInstance() {
         if (story == null) {
@@ -20,14 +20,13 @@ public class StoryLines {
     }
 
 
-    /**
-     * Method for updating data on the server in case of a file change.
-     * @param listFileLine - the new list read after file changes.
-     */
-    public void updateStory(List<String> listFileLine) {
-        this.linesRead = listFileLine;
-        ServerApplication.getClientHandlers().forEach(client -> client.send(listFileLine));
+    public void updateStory(List<String> lastLine) {
+        if (lastLine != null && !lastLine.isEmpty()) {
+            ServerApplication.getClientHandlers().forEach(client -> client.send(lastLine));
+            linesRead.addAll(lastLine);
+        }
     }
+
 
     /**
      * Get the complete list of read lines.
