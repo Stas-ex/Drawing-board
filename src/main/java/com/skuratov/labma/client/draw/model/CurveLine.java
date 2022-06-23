@@ -11,4 +11,9 @@ public class CurveLine {
     public CurveLine(List<Point> listPoints) {
         this.points = listPoints;
     }
+
+    public void addBeginningPoint(Point point){
+        points.add(0,point);
+    }
+
 }

@@ -8,6 +8,7 @@ import com.skuratov.labma.client.draw.model.Point;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 
@@ -27,8 +28,8 @@ public class Reader {
      * @return array formed curve line
      * @throws IOException if an error occurs while reading the data.
      */
-    public List<CurveLine> readAllCurveLine() throws IOException {
-        List<CurveLine> curves = new ArrayList<>();
+    public List<CurveLine> readCurvedLines() throws IOException {
+        List<CurveLine> curves = new LinkedList<>();
         List<Point> points = new ArrayList<>();
         while (in.ready()) {
             Point point = tryParsePointByString(in.readLine());

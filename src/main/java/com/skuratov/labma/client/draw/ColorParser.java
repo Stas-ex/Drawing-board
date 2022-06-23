@@ -15,6 +15,6 @@ public class ColorParser {
     }
 
     public static Color getColorByDigit(String numberStr) {
-        return colorMap.get(numberStr);
+        return colorMap.getOrDefault(numberStr, Color.BLACK);
     }
 }

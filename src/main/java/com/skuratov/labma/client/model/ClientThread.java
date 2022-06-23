@@ -3,6 +3,8 @@ package com.skuratov.labma.client.model;
 import com.skuratov.labma.client.draw.BezierGraphic;
 import com.skuratov.labma.client.draw.MainWindow;
 import com.skuratov.labma.client.draw.model.CurveLine;
+import com.skuratov.labma.client.draw.model.OperationType;
+import com.skuratov.labma.client.draw.model.Point;
 import com.skuratov.labma.client.io.Reader;
 
 import java.io.BufferedReader;
@@ -27,10 +29,11 @@ public class ClientThread implements Runnable {
      * @param port - variable to connect to the server
      */
     public ClientThread(String host, int port) {
+        logger.info("Client open window.");
+
         this.host = host;
         this.port = port;
         window = new MainWindow(700, 600);
-        logger.info("Client open window.");
     }
 
     /**
@@ -42,16 +45,14 @@ public class ClientThread implements Runnable {
         while (reader == null) {
             try (Socket socket = new Socket(host, port);
                  BufferedReader in = new BufferedReader(
-                         new InputStreamReader(socket.getInputStream()))) {
-
+                         new InputStreamReader(socket.getInputStream())))
+            {
                 reader = new Reader(in);
-
                 while (!socket.isClosed()) {
                     repaint(in);
-                    Thread.sleep(1000);
                 }
 
-            } catch (IOException | InterruptedException e) {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }
@@ -60,15 +61,26 @@ public class ClientThread implements Runnable {
 
     /**
      * Method for reading updated data from the server and redrawing the window
+     *
      * @param in - stream for reading data from the server
      * @throws IOException if data read error
      */
     public void repaint(BufferedReader in) throws IOException {
         if (in.ready()) {
             logger.info("Repaint..");
-            List<CurveLine> curvesRead = reader.readAllCurveLine();
+            List<CurveLine> curvesRead = reader.readCurvedLines();
+
+            //Connecting old and new points
+            if(!window.getCurves().isEmpty()){
+                Point point = curvesRead.get(0).getPoints().get(0);
+                if (point.getOperation().equals(OperationType.MOVE)) {
+                   List<Point> lastPointsWindow = window.getCurves().get(window.getCurves().size()-1).getPoints();
+                   curvesRead.get(0).addBeginningPoint(lastPointsWindow.get(lastPointsWindow.size()-1));
+                }
+            }
+
             List<CurveLine> curvesBezier = BezierGraphic.getBezierCurves(curvesRead);
-            window.setCurves(curvesBezier);
+            window.addCurves(curvesBezier);
             window.revalidate();
             window.repaint();
         }

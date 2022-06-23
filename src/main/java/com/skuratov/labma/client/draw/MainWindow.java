@@ -2,25 +2,35 @@ package com.skuratov.labma.client.draw;
 
 import com.skuratov.labma.client.draw.model.CurveLine;
 
-import java.util.ArrayList;
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Class for drawing the graphics window.
  */
 public class MainWindow extends JFrame {
-    private List<CurveLine> curves = new ArrayList<>();
+    private final List<CurveLine> curves = new ArrayList<>();
 
-    public void setCurves(List<CurveLine> curves) {
-        this.curves = curves;
+    public void addCurves(List<CurveLine> updateCurves) {
+        if (updateCurves.isEmpty()) {
+            return;
+        }
+//        if (!curves.isEmpty()) {
+//            Point point = updateCurves.get(0).getPoints().get(0);
+//            if (point.getOperation().equals(OperationType.MOVE)) {
+//                curves.get(0).addBeginningPoint(updateCurves.remove(0).getPoints());
+//            }
+//        }
+        this.curves.addAll(updateCurves);
     }
 
 
     /**
      * The method initializes the main elements and creates a jpanel to redraw the shapes.
-     * @param width - window graphics width
+     *
+     * @param width  - window graphics width
      * @param height - window graphics height
      */
     public MainWindow(int width, int height) {
@@ -37,7 +47,7 @@ public class MainWindow extends JFrame {
                             int y = (int) (curveLine.getPoints().get(i).getY() * resizeCoeff);
                             Color color = curveLine.getPoints().get(i).getColor();
                             g.setColor(color);
-                            g.fillOval(x,y,7,7);
+                            g.fillOval(x, y, 7, 7);
                         }
                     }
                 }
@@ -49,4 +59,7 @@ public class MainWindow extends JFrame {
         setVisible(true);
     }
 
+    public List<CurveLine> getCurves() {
+        return curves;
+    }
 }
