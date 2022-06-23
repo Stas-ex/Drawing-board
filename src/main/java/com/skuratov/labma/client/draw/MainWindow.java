@@ -14,15 +14,6 @@ public class MainWindow extends JFrame {
     private final List<CurveLine> curves = new ArrayList<>();
 
     public void addCurves(List<CurveLine> updateCurves) {
-        if (updateCurves.isEmpty()) {
-            return;
-        }
-//        if (!curves.isEmpty()) {
-//            Point point = updateCurves.get(0).getPoints().get(0);
-//            if (point.getOperation().equals(OperationType.MOVE)) {
-//                curves.get(0).addBeginningPoint(updateCurves.remove(0).getPoints());
-//            }
-//        }
         this.curves.addAll(updateCurves);
     }
 

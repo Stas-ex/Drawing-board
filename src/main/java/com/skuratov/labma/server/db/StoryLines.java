@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The class saves actual data from reading the file, allows you to reduce the number of file accessesю
+ * The class saves actual data from reading the file, allows you to reduce the number of file accesses
  */
 public class StoryLines {
     private static StoryLines story;
@@ -19,7 +19,10 @@ public class StoryLines {
         return story;
     }
 
-
+    /**
+     * The method gets the last read lines and adds them to the history.
+     * @param lastLine - new read lines from the file
+     */
     public void updateStory(List<String> lastLine) {
         if (lastLine != null && !lastLine.isEmpty()) {
             ServerApplication.getClientHandlers().forEach(client -> client.send(lastLine));
@@ -28,10 +31,6 @@ public class StoryLines {
     }
 
 
-    /**
-     * Get the complete list of read lines.
-     * @return list String.
-     */
     public List<String> getLinesRead() {
         return linesRead;
     }

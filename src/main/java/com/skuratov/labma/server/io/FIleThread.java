@@ -9,6 +9,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
@@ -22,9 +23,8 @@ public class FIleThread extends Thread {
     private long lastTimeFile;
 
     /**
-     * lastTimeFile - variable to get a permanent file update
-     *
-     * @param fileName - file name to read
+     * The constructor reads all the data from the file and passes it to the  data {@link StoryLines}.
+     * @param fileName file name to read
      */
     public FIleThread(String fileName) {
         file = new File(fileName);
@@ -50,6 +50,10 @@ public class FIleThread extends Thread {
         }
     }
 
+    /**
+     * The method reads and checks for correctness all lines from the file.
+     * @return all lines from the file
+     */
     private List<String> readAllFile() {
         logger.info("Read all file.");
         List<String> validLines = new ArrayList<>();
@@ -66,19 +70,24 @@ public class FIleThread extends Thread {
         }
     }
 
+    /**
+     * The method reads the last lines from the file after it has been updated.
+     * @return read lines from file
+     */
     private List<String> readEndLine() {
         logger.info("Read end file.");
         List<String> updateLines = new ArrayList<>();
         List<String> storyLines = StoryLines.getInstance().getLinesRead();
 
         try (ReversedLinesFileReader reader = new ReversedLinesFileReader(file, StandardCharsets.UTF_8)) {
-            String lastLine  = reader.readLine();
-            while (lastLine != null && !storyLines.contains(lastLine)){
+            String lastLine = reader.readLine();
+            while (lastLine != null && !storyLines.contains(lastLine)) {
                 if (validateLine(lastLine)) {
                     updateLines.add(lastLine);
                 }
                 lastLine = reader.readLine();
             }
+            Collections.reverse(updateLines);
         } catch (IOException ex) {
             ex.printStackTrace();
         }
@@ -87,8 +96,7 @@ public class FIleThread extends Thread {
 
     /**
      * Method for validating string data.
-     *
-     * @param line - line read from file.
+     * @param line line read from file.
      */
     private boolean validateLine(String line) {
         try {

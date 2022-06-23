@@ -12,7 +12,6 @@ public class BezierGraphic {
 
     /**
      * Method that generates a list of curved lines based on lines received from the server.
-     *
      * @param readCurves - list of points read from the server
      * @return List formed from Bezier curves
      */
@@ -41,7 +40,6 @@ public class BezierGraphic {
 
     /**
      * The method generates a constant for creating points Bezier.
-     *
      * @param i - vertex number
      * @param n - number of vertices
      * @param t - curve position (from 0 to 1)

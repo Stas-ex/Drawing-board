@@ -18,11 +18,16 @@ public class ClientHandler {
      */
     public ClientHandler(Socket clientSocket) throws IOException {
         out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream())));
+
         //display the current version of the lines
         List<String> linesStory = StoryLines.getInstance().getLinesRead();
         send(linesStory);
     }
 
+    /**
+     * The method sends the read lines to the client side.
+     * @param linesStory - strings to send to the client
+     */
     public void send(List<String> linesStory) {
         if (linesStory.size() > 0) {
             linesStory.stream().map(line -> line + "\n").forEach(out::write);

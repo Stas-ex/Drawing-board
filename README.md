@@ -41,10 +41,10 @@ Clients multipath connect to the server and start listening for commands;
 ```java
 ExecutorService exec = Executors.newFixedThreadPool(3);
     for (int i = 0; i < 3; i++) {
-        exec.execute(new Client("localhost", 29288));
-        Thread.sleep(100);
+        exec.execute(new ClientThread("localhost", 29288));
     }
     exec.shutdown();
+}
 ```
 
 **Bezier method**
