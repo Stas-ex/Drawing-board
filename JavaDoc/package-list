@@ -1,9 +1,0 @@
-com.skuratov.labma.client
-com.skuratov.labma.client.draw
-com.skuratov.labma.client.draw.model
-com.skuratov.labma.client.io
-com.skuratov.labma.client.model
-com.skuratov.labma.server
-com.skuratov.labma.server.db
-com.skuratov.labma.server.handlers
-com.skuratov.labma.server.io
