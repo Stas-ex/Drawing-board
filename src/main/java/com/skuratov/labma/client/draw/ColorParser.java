@@ -8,6 +8,7 @@ import java.util.HashMap;
  * Class for converting quantitative color values to a Color object.
  */
 public class ColorParser {
+
     private static final Map<String, Color> colorMap = new HashMap<>();
 
     static {colorMap.put("-16777216", Color.black);}

@@ -4,9 +4,9 @@ import lombok.Data;
 
 import java.awt.*;
 
-
 @Data
 public class Point {
+
     private float x;
     private float y;
     private Color color;

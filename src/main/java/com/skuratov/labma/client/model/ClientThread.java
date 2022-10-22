@@ -18,10 +18,13 @@ import java.util.logging.Logger;
  * The client class interacts with the server and with a graphical window for a single thread.
  */
 public class ClientThread implements Runnable {
+
     private final static Logger logger = Logger.getLogger("ServerApplication");
+
     private final String host;
     private final int port;
     private final MainWindow window;
+
     private Reader reader;
 
     /**
@@ -43,15 +46,19 @@ public class ClientThread implements Runnable {
         //If unable to connect to socket, wait for connection
         while (reader == null) {
             try (Socket socket = new Socket(host, port);
-                 BufferedReader in = new BufferedReader(
-                         new InputStreamReader(socket.getInputStream()))) {
+                 BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
                 reader = new Reader(in);
                 while (!socket.isClosed()) {
                     repaint(in);
                 }
-
             } catch (IOException e) {
-                e.printStackTrace();
+                logger.warning(String.format("Client %s can't connect", Thread.currentThread().getName()));
+
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException ex) {
+                    throw new RuntimeException(ex);
+                }
             }
         }
     }

@@ -16,10 +16,11 @@ public class BezierGraphic {
      * @return List formed from Bezier curves
      */
     public static List<CurveLine> getBezierCurves(List<CurveLine> readCurves) {
-       return readCurves.stream().map(BezierGraphic::getBezierCurve).collect(toList());
+        return readCurves.stream().map(BezierGraphic::getBezierCurve).collect(toList());
     }
 
     /**
+     * Method adds Bezier smoothing
      * @param line - curved line resulting from reading a file
      * @return - curved line obtained by the Bezier method
      */

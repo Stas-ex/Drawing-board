@@ -9,6 +9,7 @@ import java.util.concurrent.Executors;
  * ClientFactory - Class for creating client threads.
  */
 public class ClientApplication {
+
     public static void main(String[] args) {
         ExecutorService exec = Executors.newFixedThreadPool(3);
         for (int i = 0; i < 3; i++) {

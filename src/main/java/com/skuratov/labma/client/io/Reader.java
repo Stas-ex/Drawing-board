@@ -15,6 +15,7 @@ import java.util.Locale;
  * The ReaderSocket class is designed to read information coming from the server.
  */
 public class Reader {
+
     private final BufferedReader in;
 
     public Reader(BufferedReader in) {

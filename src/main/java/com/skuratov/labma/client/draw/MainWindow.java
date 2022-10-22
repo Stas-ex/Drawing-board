@@ -20,7 +20,6 @@ public class MainWindow extends JFrame {
 
     /**
      * The method initializes the main elements and creates a jpanel to redraw the shapes.
-     *
      * @param width  - window graphics width
      * @param height - window graphics height
      */

@@ -11,18 +11,20 @@ The server (own emulator) creates a [ServerSocket](https://docs.oracle.com/javas
 
 try (ServerSocket serverSocket = new ServerSocket(29288)) {
         while (!serverSocket.isClosed()) {
-        Socket clientSocket = serverSocket.accept();
-        System.out.println("Client connection");
-        listClient.add(new ClientHandler(clientSocket));
+            Socket clientSocket = serverSocket.accept();
+            System.out.println("Client connection");
+            listClient.add(new ClientHandler(clientSocket));
         }
     } catch (IOException e){}
 }
 ```
 
-After starting, the server starts reading commands from the [file](src/main/resources/drawingCommands.txt) and sending them to connected clients. To do this, a thread is created that checks the file's last modified date with a delay of 2 seconds.
+After starting, the server starts reading commands from the [file](src/main/resources/drawingCommands.txt) and sending them to connected clients.
+To do this, a thread is created that checks the date of the last modification of the file.
 
 ```java
- scExecutorService.scheduleWithFixedDelay(new FIleThread(fileName), 0, 2, TimeUnit.SECONDS);
+ExecutorService executorService = Executors.newFixedThreadPool(1);
+executorService.execute(new FIleThread(fileName));
 ```
 
 The data presented in the [file](src/main/resources/drawingCommands.txt) looks like: <br>
@@ -76,11 +78,12 @@ In case of a successful connection to the server, clients read data from the ser
 
 ![](src/main/resources/img-ReadMe/ClientOne.png)
 
-When using data in a [file](src/main/resources/drawingCommands.txt), reducing the image with a delay of 100 milliseconds
+After changing the [file](src/main/resources/drawingCommands.txt), the image is updated:
 
 ![](src/main/resources/img-ReadMe/ClientTwo.png)
 
-If the client fails to connect to the server, throw a [ConnectException](https://docs.oracle.com/javase%2F7%2Fdocs%2Fapi%2F%2F/java/net/ConnectException.html) until the client connects to the server.
+If the client fails to connect to the server, [ConnectException](https://docs.oracle.com/javase%2F7%2Fdocs%2Fapi%2F%2F/java/net/ConnectException.html)
+is called and log is output with a delay of 100ms.
 
 ![](src/main/resources/img-ReadMe/ClientErrConnection.png)
 
@@ -97,8 +100,9 @@ When starting the project, you will need to download the libraries using maven. 
 
 Method lookup procedure is not needed.
 
-##You can contact me:
+More details can be found by reading the Russified [terms of reference](src/main/resources/task/Tz.docx).
 
+### You can contact me:  
 <a href ="https://t.me/StaseEx"><img src="https://github.com/Mybono/Mybono/raw/main/assets/telegran%2035%20px.png"/></a>
 
 

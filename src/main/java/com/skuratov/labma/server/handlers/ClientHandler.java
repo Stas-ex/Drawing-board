@@ -10,6 +10,7 @@ import java.util.List;
  * Class for sending messages to the client side
  */
 public class ClientHandler {
+
     private final PrintWriter out;
 
     /**
@@ -35,4 +36,12 @@ public class ClientHandler {
         }
     }
 
+    /**
+     * The method sends the read line to the client side.
+     * @param line - string to send to the client
+     */
+    public void send(String line) {
+        out.write(line + "\n");
+        out.flush();
+    }
 }
